@@ -14,7 +14,6 @@ module FlowerShop
 
   def configure
     yield config
-    config.validate
   end
 
 end
