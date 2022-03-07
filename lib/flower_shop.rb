@@ -16,4 +16,8 @@ module FlowerShop
   def configure
     yield config
   end
+
+  def inventory_items
+    @inventory_items ||= InventoryLoader.new(@config.inventory_type, @config.inventory_meta_deta).inventory_items
+  end
 end
