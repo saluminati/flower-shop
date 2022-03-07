@@ -27,22 +27,20 @@ module FlowerShop
     end
 
     def load_inventory_from_file
-      begin
-        items = File.readlines(@inventory_meta_data, chomp: true)
-        items.each { |meta_item| validate_meta_item(meta_item) }
-        @inventory_items = items
-      rescue Errno::ENOENT
-        raise ErrorCode.new, ErrorCode::FILE_NOT_EXIST
-      end
+      items = File.readlines(@inventory_meta_data, chomp: true)
+      validate_meta_items(items)
+      @inventory_items = items
+    rescue Errno::ENOENT
+      raise ErrorCode.new, ErrorCode::FILE_NOT_EXIST
     end
 
     def load_inventory_from_array
-      validate_items
+      validate_meta_items(@inventory_meta_data)
       @inventory_items = @inventory_meta_data
     end
 
-    def validate_items
-      @inventory_meta_data.each { |meta_item| validate_meta_item(meta_item) }
+    def validate_meta_items(meta_items)
+      meta_items.each { |meta_item| validate_meta_item(meta_item) }
     end
 
     def validate_meta_item(meta_item)
