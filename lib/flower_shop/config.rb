@@ -4,7 +4,10 @@ module FlowerShop
   class Config
     attr_accessor :inventory_type, :inventory_meta_deta
 
-    def initialize; end
+    def initialize(inventory_type = nil, inventory_meta_deta = nil)
+      @inventory_type = inventory_type
+      @inventory_meta_deta = inventory_meta_deta
+    end
 
     def validate
       raise ErrorCode.new ErrorCode::INVENTORY_WRONG_TYPE unless AppConstant::INVENTORY_VALID_TYPES.include?(inventory_type)

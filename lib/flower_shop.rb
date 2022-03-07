@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'flower_shop/seeder/inventory_seeder'
 require_relative 'flower_shop/constants/error_code'
 require_relative 'flower_shop/constants/app_constant'
 require_relative 'flower_shop/config'
@@ -17,4 +16,5 @@ module FlowerShop
     yield config
     config.validate
   end
+
 end
