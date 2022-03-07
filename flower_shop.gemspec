@@ -19,7 +19,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-checkstyle_formatter'
   spec.add_development_dependency 'rubocop-rspec'
 
-
   # rspec suit
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'shoulda-matchers'

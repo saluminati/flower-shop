@@ -3,7 +3,6 @@
 require_relative './spec_helper'
 
 RSpec.describe FlowerShop do
-
   describe '.configure' do
     it 'will mutate the config for the flower shop' do
       described_class.configure do |config|

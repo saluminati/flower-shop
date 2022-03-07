@@ -3,6 +3,7 @@
 require_relative 'flower_shop/constants/error_code'
 require_relative 'flower_shop/constants/app_constant'
 require_relative 'flower_shop/config'
+require_relative 'flower_shop/utils/inventory_loader'
 
 # Entry point namespace of this gem
 module FlowerShop
@@ -15,5 +16,4 @@ module FlowerShop
   def configure
     yield config
   end
-
 end
