@@ -3,6 +3,8 @@
 require_relative 'flower_shop/constants/error_code'
 require_relative 'flower_shop/constants/app_constant'
 require_relative 'flower_shop/config'
+require_relative 'flower_shop/flower'
+require_relative 'flower_shop/bundle'
 require_relative 'flower_shop/utils/inventory_loader'
 
 # Entry point namespace of this gem
