@@ -15,6 +15,5 @@ RSpec.describe FlowerShop::Flower do
       flower.add_bundle(size: 5, cost: 20)
       expect(flower.bundles.size).to eq(1)
     end
-    
   end
 end

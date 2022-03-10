@@ -12,7 +12,7 @@ module FlowerShop
     end
 
     def add_bundle(size:, cost:)
-      @bundles << Bundle.new(size: size, cost: cost)
+      @bundles << Bundle.new(size: size.to_i, cost: cost.to_f)
     end
   end
 end

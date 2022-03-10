@@ -9,5 +9,8 @@ module FlowerShop
     INVENTORY_INVALID_META_DATA_ARRAY = 'Inventory Error: Meta data should be Array of non empty strings'
     INVENTORY_INVALID_META_DATA_FILE = 'Inventory Error: Meta data can only be of a non empty string containing file path'
     INVENTORY_ITEM_WRONG_FORMAT = 'Inventory Item Format Error: _item_ is not valid. Please refer to README'
+    INVENTORY_WRONG_ITEM_INSERT = 'Inventory Item Format Error: You can only pass FlowerShop::Flower object as an argument to the add_item method'
+    INVENTORY_PRODUCT_NOT_FOUND = 'Inventory Error: _item_ not found. Please check your product code. Available product codes : _item2_'
+    INVENTORY_BUNDLES_EMPTY = 'Inventory Error: Product code(_item_). Does not have any bundles.'
   end
 end

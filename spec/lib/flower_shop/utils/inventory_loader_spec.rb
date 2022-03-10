@@ -6,21 +6,46 @@ RSpec.describe FlowerShop::InventoryLoader do
   context 'when invalid inventory_type is provided' do
     it {
       expect do
-        described_class.new('wrong inventory type', 'adfadf').validate
+        described_class.new('wrong inventory type', 'adfadf')
       end.to raise_error(FlowerShop::ErrorCode, FlowerShop::ErrorCode::INVENTORY_WRONG_TYPE)
     }
 
     it {
       expect do
-        described_class.new('', 'adfadf').validate
+        described_class.new('', 'adfadf')
       end.to raise_error(FlowerShop::ErrorCode, FlowerShop::ErrorCode::INVENTORY_WRONG_TYPE)
     }
 
     it {
       expect do
-        described_class.new(nil, 'adfadf').validate
+        described_class.new(nil, 'adfadf')
       end.to raise_error(FlowerShop::ErrorCode, FlowerShop::ErrorCode::INVENTORY_WRONG_TYPE)
     }
+  end
+
+  it 'accept space or comma as a seperator' do
+    meta_data_comma = ['Rose,Anita,A80,5@40', 'Rose,Ballerina,b22,10@40.33']
+    meta_data_space = ['Rose Anita A80 5@40', 'Rose Ballerina b22 10@40.33']
+    expect(described_class.new('array', meta_data_comma).inventory_items.size).to eq(2)
+    expect(described_class.new('array', meta_data_space).inventory_items.size).to eq(2)
+  end
+
+  it 'populates correct inventory items' do
+    loader = described_class.new('array', ['Rose,Anita,A80,5@40', 'Rose,Ballerina,b22,10@40.33'])
+
+    expect(loader.inventory_items.size).to eq(2)
+    expect(loader.inventory_items.first.kind).to eq('Rose')
+    expect(loader.inventory_items.first.category).to eq('Anita')
+    expect(loader.inventory_items.first.product_code).to eq('A80')
+    expect(loader.inventory_items.first.bundles.first.size).to eq(5)
+    expect(loader.inventory_items.first.bundles.first.cost).to eq(40)
+
+    expect(loader.inventory_items.size).to eq(2)
+    expect(loader.inventory_items.last.kind).to eq('Rose')
+    expect(loader.inventory_items.last.category).to eq('Ballerina')
+    expect(loader.inventory_items.last.product_code).to eq('b22')
+    expect(loader.inventory_items.last.bundles.first.size).to eq(10)
+    expect(loader.inventory_items.last.bundles.first.cost).to eq(40.33)
   end
 
   context 'when valid inventory_type is array' do
@@ -64,14 +89,14 @@ RSpec.describe FlowerShop::InventoryLoader do
   end
 
   context 'when valid inventory_type is file with a valid path' do
-    it 'will mutate the inventory_items' do
+    it 'mutates the inventory_items' do
       inventory = described_class.new('file', File.expand_path('spec/support/valid_inventory_items.txt'))
       expect(inventory.inventory_items.size).to eq(2)
     end
   end
 
   context 'when valid inventory_type is file with a valid path but errors in the format' do
-    it 'will raise exception' do
+    it 'raises exception' do
       error_message = FlowerShop::ErrorCode::INVENTORY_ITEM_WRONG_FORMAT.dup.gsub '_item_', 'Rose Random 10@40.33'
       expect do
         described_class.new('file', File.expand_path('spec/support/invalid_inventory_items.txt'))
@@ -80,7 +105,7 @@ RSpec.describe FlowerShop::InventoryLoader do
   end
 
   context 'when valid inventory_type is file with an invalid file path' do
-    it 'will raise exception' do
+    it 'raises exception' do
       expect do
         described_class.new('file', File.expand_path('spec/support/valid_inventory_itemsss.txt'))
       end.to raise_error(FlowerShop::ErrorCode, FlowerShop::ErrorCode::FILE_NOT_EXIST)
