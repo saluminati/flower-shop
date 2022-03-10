@@ -12,5 +12,6 @@ module FlowerShop
     INVENTORY_WRONG_ITEM_INSERT = 'Inventory Item Format Error: You can only pass FlowerShop::Flower object as an argument to the add_item method'
     INVENTORY_PRODUCT_NOT_FOUND = 'Inventory Error: _item_ not found. Please check your product code. Available product codes : _item2_'
     INVENTORY_BUNDLES_EMPTY = 'Inventory Error: Product code(_item_). Does not have any bundles.'
+    BUNDLE_SIZE_ERROR = 'Bundle Size Error: Bundle value should be greater than 1'
   end
 end

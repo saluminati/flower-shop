@@ -8,21 +8,25 @@ module FlowerShop
     def initialize(quantity:, bundles:)
       @quantity = quantity
       @bundles = bundles.map(&:size).sort.reverse
-      # quantity_remaining = @quantity
-      # combinations = []
-
       @bundles_order = fill_bundles
     end
 
     private
 
-    # this code tries insert biggest items first
+    # this method itterates from the biggest bundle first
+    # fills it as much as it can and then move to the smaller items
+    # in the end, it has the combination of all possible bundles
+    # our logic chooses the combination which is saving us the max space
+    # and equal to or close to the order placed
     def fill_bundles
+      return [@bundles.last] if @bundles.select { |b| @quantity >= b }.size.zero?
+
       all_comnbinations = []
       combinations = []
       quantity_remaining = 0
+      
 
-      @bundles.each do |bundle|
+      filtered_bundles.each do |bundle|
         combinations = []
         quantity_remaining = @quantity
         divident = quantity_remaining.div(bundle)
@@ -31,7 +35,7 @@ module FlowerShop
 
         combinations.concat(Array.new(divident) { bundle })
 
-        @bundles.each_with_index do |inner_bundle, _index|
+        filtered_bundles.each_with_index do |inner_bundle, _index|
           next if inner_bundle == bundle
           break if quantity_remaining <= 0
 
@@ -49,6 +53,8 @@ module FlowerShop
       sort_by_space(all_comnbinations)
     end
 
+    # if the current comnbination can not fit the exact order
+    # we need to find the best match from the available bundles
     def otimize_space(c)
       item = @quantity - (c.sum - c.last)
       c[-1] = @bundles.select { |i| i >= item }.reverse.first
@@ -59,6 +65,10 @@ module FlowerShop
       return all_c.first if final.nil?
 
       final
+    end
+
+    def filtered_bundles
+      @filtered_bundles ||= @bundles.select { |b| b <= @quantity } 
     end
   end
 end

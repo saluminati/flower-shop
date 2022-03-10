@@ -14,6 +14,17 @@ RSpec.describe FlowerShop::InventorySorterBySpace do
     end
   end
 
+  context 'when flowers amount ordered is less than all available bundles' do
+    it 'picks the closest possible bundle to the order' do
+      bundles = []
+      [3, 6, 9].each { |i| bundles << FlowerShop::Bundle.new(size: i, cost: rand(i)) }
+      bundles_order = described_class.new(quantity: 2, bundles: bundles).bundles_order
+      expect(bundles_order.class).to eq(Array)
+      expect(bundles_order.size).to eq(1)
+      expect(bundles_order.first).to eq(3)
+    end
+  end
+
   context 'when order of flowers is 15 and available bundles size are [3,6,9]' do
     it 'selects bundles of 9 and 6' do
       bundles = []
