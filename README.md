@@ -54,6 +54,9 @@ order_items = FlowerShop.place_order(quantity: 10, product_code: 'A80')
 ```
 This method will find the product by its product code and consume minimal bundles to fulfill orders and return the bundles array
 
+# Still having issues
+[Download the repo containing sample code](https://github.com/saluminati/flower_shop_sample_code)
+
 
 ## TODOs
 - place_order method is by default saving space by minimal bundles of flowers, in the future, it can be done by introducing a sort_by price, space, specials etc.
