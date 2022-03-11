@@ -14,7 +14,7 @@ module FlowerShop
       cart = create_cart
       puts "#{cart[:quantity]} #{cart[:product_code]} $#{cart[:sum]}"
       cart[:bundles].group_by { |x| x }.each_value do |bundle|
-        puts "#{bundle.size} x #{bundle.first.size} $#{bundle.flatten.map(&:cost).inject(0, &:+)}"
+        puts "#{bundle.flatten.size} x #{bundle.flatten.first.size} $#{bundle.flatten.map(&:cost).inject(0, &:+)}"
       end
     end
 
