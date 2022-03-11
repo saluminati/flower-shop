@@ -52,7 +52,7 @@ RSpec.describe FlowerShop::Inventory do
     context 'when the product code does not exist in the inventory' do
       it {
         expect do
-          inventory.place_order(quantity: 50, product_code: 'A8033')
+          inventory.optimize_bundles(quantity: 50, product_code: 'A8033')
         end.to raise_error(FlowerShop::ErrorCode,
                            'Inventory Error: A8033 not found. Please check your product code. Available product codes : S180,A80')
       }
@@ -62,7 +62,7 @@ RSpec.describe FlowerShop::Inventory do
       it {
         expect do
           inventory.add_item(sun_flower)
-          inventory.place_order(quantity: 50, product_code: 'S180')
+          inventory.optimize_bundles(quantity: 50, product_code: 'S180')
         end.to raise_error(FlowerShop::ErrorCode,
                            'Inventory Error: Product code(S180). Does not have any bundles.')
       }
@@ -70,17 +70,17 @@ RSpec.describe FlowerShop::Inventory do
 
     it 'bundles the optimized and exact order size if possible' do
       [3, 6, 9].each { |i| sun_flower.add_bundle(size: i, cost: rand(1..100)) }
-      inventory.place_order(quantity: 51, product_code: 'S180')
-      expect(inventory.bundles_order.sum).to eq(51)
-      expect(inventory.bundles_order.size).to eq(6)
+      bundles_order = inventory.optimize_bundles(quantity: 51, product_code: 'S180')
+      expect(bundles_order.sum).to eq(51)
+      expect(bundles_order.size).to eq(6)
     end
 
     context 'when order of flowers does not fit the exact bundles sum' do
       it 'bundles the closest possbile bundles collection to order' do
         [3, 6, 9].each { |i| sun_flower.add_bundle(size: i, cost: rand(1..100)) }
-        inventory.place_order(quantity: 50, product_code: 'S180')
-        expect(inventory.bundles_order.sum).to eq(51)
-        expect(inventory.bundles_order.size).to eq(6)
+        bundles_order = inventory.optimize_bundles(quantity: 50, product_code: 'S180')
+        expect(bundles_order.sum).to eq(51)
+        expect(bundles_order.size).to eq(6)
       end
     end
   end

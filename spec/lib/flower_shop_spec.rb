@@ -45,9 +45,13 @@ RSpec.describe FlowerShop do
         config.inventory_meta_deta = ['Rose Anita A80 5@40', 'Rose Anita A80 10@60']
       end
 
-      order_items = described_class.place_order(quantity: 15, product_code: 'A80')
-      expect(order_items).to eq([10, 5])
-      expect(order_items.sum).to eq(15)
+      cart = described_class.place_order(quantity: 25, product_code: 'A80').create_cart
+      expect(cart[:quantity]).to eq(25)
+      expect(cart[:product_code]).to eq('A80')
+      expect(cart[:bundles].size).to eq(2)
+      expect(cart[:bundles].first.size).to eq(2)
+      expect(cart[:bundles].last.size).to eq(1)
+      expect(cart[:sum]).to eq(160.0)
     end
   end
 end

@@ -6,6 +6,7 @@ require_relative 'flower_shop/config'
 require_relative 'flower_shop/flower'
 require_relative 'flower_shop/bundle'
 require_relative 'flower_shop/inventory'
+require_relative 'flower_shop/cart'
 require_relative 'flower_shop/utils/inventory_loader'
 require_relative 'flower_shop/utils/inventory_sorter_by_space'
 
@@ -30,7 +31,10 @@ module FlowerShop
   end
 
   def place_order(quantity:, product_code:)
-    inventory.place_order(quantity: quantity, product_code: product_code)
+    inv = inventory
+    bundles_order = inv.optimize_bundles(quantity: quantity, product_code: product_code)
+    product = inv.find_product_by(product_code: product_code)
+    FlowerShop::Cart.new(product: product, bundles: bundles_order, quantity: quantity)
   end
 
   def load_inventory

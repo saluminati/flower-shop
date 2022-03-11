@@ -6,6 +6,7 @@ module FlowerShop
 
     def initialize
       @products = []
+      @bundles_order = []
     end
 
     def add_item(inventory_item)
@@ -20,12 +21,11 @@ module FlowerShop
       end
     end
 
-    def place_order(quantity:, product_code:)
+    def optimize_bundles(quantity:, product_code:)
       product = find_product_by(product_code: product_code)
       raise_product_not_found_error(product_code) if product.nil?
       validate_bundle_size(product)
-      sorted_bundles = FlowerShop::InventorySorterBySpace.new(quantity: quantity, bundles: product.bundles)
-      @bundles_order = sorted_bundles.bundles_order
+      FlowerShop::InventorySorterBySpace.new(quantity: quantity, bundles: product.bundles).bundles_order
     end
 
     def find_product_by(product_code:)

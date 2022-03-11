@@ -24,7 +24,6 @@ module FlowerShop
       all_comnbinations = []
       combinations = []
       quantity_remaining = 0
-      
 
       filtered_bundles.each do |bundle|
         combinations = []
@@ -68,7 +67,7 @@ module FlowerShop
     end
 
     def filtered_bundles
-      @filtered_bundles ||= @bundles.select { |b| b <= @quantity } 
+      @filtered_bundles ||= @bundles.select { |b| b <= @quantity }
     end
   end
 end
