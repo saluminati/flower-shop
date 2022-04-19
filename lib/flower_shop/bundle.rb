@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Class that contains the data-structure of a bundle
   class Bundle
     attr_accessor :size, :cost
 

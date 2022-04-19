@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Class that represents a flower object
   class Flower
     attr_accessor :kind, :product_code, :category, :bundles
 

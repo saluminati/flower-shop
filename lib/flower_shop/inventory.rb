@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Inventory class of the FlowerShop
+  # Adding items, sort the inventory by space
+  # are the main traits of this class
   class Inventory
     attr_accessor :products, :bundles_order
 

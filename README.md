@@ -27,26 +27,15 @@ gem 'flower_shop', :git => 'git://github.com/saluminati/flower-shop.git'
   
 
 ```ruby
-
 require  'flower_shop'
 
-  
-  
-
 FlowerShop.configure  do |config|
-
-config.inventory_type = 'array'
-
-config.inventory_meta_deta = [
-
-'Rose Anita A80 5@40',
-
-'Rose Ballerina b22 10@40.33'
-
-]
-
+  config.inventory_type = 'array'
+  config.inventory_meta_deta = [
+  'Rose Anita A80 5@40',
+  'Rose Ballerina b22 10@40.33'
+  ]
 end
-
 ```
 
   
@@ -57,20 +46,12 @@ end
   
 
 ```ruby
-
 require  'flower_shop'
 
-  
-  
-
 FlowerShop.configure  do |config|
-
-config.inventory_type = 'file'
-
-config.inventory_meta_deta = 'file_path'
-
+  config.inventory_type = 'file'
+  config.inventory_meta_deta = 'file_path'
 end
-
 ```
 
 **Inventory Item format**
@@ -80,11 +61,7 @@ end
 Inventory item should be in the correct format, correct formats examples:
 
 ```
-
 Rose Anita A80 5@40
-
-  
-
 Rose,Anita,A80,5@40
 
 ```
@@ -147,8 +124,6 @@ Since ``InventorySorterBySpace`` creates all the possible combinations of bundle
 
 To minimize this, for now, I am filtering the bundles list matching with the ordered quantity, for example:
 
-  
-
 **Bundles available for a product:**  ``[100, 80, 50, 10, 5, 3, 2]``
 
 **Ordered quantity:**  ``20``
@@ -156,11 +131,8 @@ To minimize this, for now, I am filtering the bundles list matching with the ord
 **filtered bundles will become:**  ``[10, 5, 3, 2]``
 
   
-
 With this approach, our iterations will be smaller and not performance hungry as the inventory grows.
 
-  
-  
 
 ## TODOs
 
@@ -169,3 +141,5 @@ With this approach, our iterations will be smaller and not performance hungry as
 - Add a method to list the available products from the inventory
 
 - Add specs for cart class
+
+- Add an option to read the inventory items from JSON file/remote

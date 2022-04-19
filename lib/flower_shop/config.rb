@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Main configuration class for the FlowerShop
   class Config
     attr_accessor :inventory_type, :inventory_meta_deta
 

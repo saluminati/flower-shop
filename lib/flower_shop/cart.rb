@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Class that contains that holds the shopping cart
   class Cart
     attr_accessor :product, :cart, :bundles
 

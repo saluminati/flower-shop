@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
   spec.email       = ''
   spec.homepage    = 'https://salzam.com'
   spec.license     = 'MIT'
+  spec.required_ruby_version = '>= 2.5.0'
 
   spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'rubocop-checkstyle_formatter'

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module FlowerShop
+  # Inventory loader class that can load inventory
+  # by file or array of inventory items
   class InventoryLoader
     attr_accessor :inventory_items
 

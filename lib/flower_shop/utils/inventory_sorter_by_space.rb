@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
-# This class sorts fills and sorts bundle by space
 module FlowerShop
+  # This class sorts fills and sorts bundle by space
   class InventorySorterBySpace
-    attr_accessor :bundles_order
-
     def initialize(quantity:, bundles:)
       @quantity = quantity
       @bundles = bundles.map(&:size).sort.reverse
-      @bundles_order = fill_bundles
+      @all_combinations = []
+    end
+
+    def bundles_order
+      @bundles_order ||= fill_bundles
     end
 
     private
@@ -21,53 +23,60 @@ module FlowerShop
     def fill_bundles
       return [@bundles.last] if @bundles.select { |b| @quantity >= b }.size.zero?
 
-      all_comnbinations = []
-      combinations = []
-      quantity_remaining = 0
+      filtered_bundles.each { |bundle| fill_bundle(bundle, nil, @quantity) }
+      sort_by_space
+    end
 
-      filtered_bundles.each do |bundle|
-        combinations = []
-        quantity_remaining = @quantity
-        divident = quantity_remaining.div(bundle)
-        remainder = quantity_remaining.modulo(bundle)
-        quantity_remaining = remainder
-
-        combinations.concat(Array.new(divident) { bundle })
-
-        filtered_bundles.each_with_index do |inner_bundle, _index|
-          next if inner_bundle == bundle
-          break if quantity_remaining <= 0
-
-          divident = quantity_remaining.div(inner_bundle)
-          remainder = quantity_remaining.modulo(inner_bundle)
-          next_bunles = Array.new(divident) { inner_bundle }
-
-          next if (next_bunles.sum + combinations.sum) > @quantity
-
-          combinations.concat(next_bunles)
-        end
-        otimize_space(combinations) if combinations.sum < @quantity
-        all_comnbinations << combinations
+    # recursive method to use one bundle as anchor point
+    # and itterate through all the bundles to fill the desired quantity
+    def fill_bundle(bundle, combination, quantity_remaining)
+      # this is where we terminate the recursive call
+      if quantity_remaining <= 0
+        @all_combinations << combination
+        return
       end
-      sort_by_space(all_comnbinations)
+
+      combination = [] if combination.nil?
+
+      divident_and_remainder = quantity_remaining.divmod(bundle)
+      combination.concat(Array.new(divident_and_remainder.first) { bundle })
+      choose_best_fit(combination) if divident_and_remainder.first.zero?
+      next_bundle = next_bundle(combination)
+      fill_bundle(next_bundle, combination, @quantity - combination.sum)
     end
 
-    # if the current comnbination can not fit the exact order
+    # if the current comnbination can not fit the exact desired quantity
     # we need to find the best match from the available bundles
-    def otimize_space(c)
-      item = @quantity - (c.sum - c.last)
-      c[-1] = @bundles.select { |i| i >= item }.reverse.first
+    # once the best match is picked, we need to check if the best match
+    # can be combined with the second last bundle and form a bigger bundle
+    def choose_best_fit(combination)
+      item = @quantity - (combination.sum - combination.last)
+      combination[-1] = @bundles.select { |i| i >= item }.reverse.first
+      combined_items = @bundles.select { |i| i == (combination[-2] + combination[-1]) }.first
+      return unless combined_items
+
+      combination.slice!(-2, 2)
+      combination << combined_items
     end
 
-    def sort_by_space(all_c)
-      final = all_c.sort_by!(&:length).select { |i| i.sum == @quantity }.first
-      return all_c.first if final.nil?
+    # This method is there to sort the combinations by length asc order
+    # which means the one with the least volume
+    def sort_by_space
+      final = @all_combinations.sort_by!(&:length).select { |i| i.sum == @quantity }.first
+      return @all_combinations.first if final.nil?
 
       final
     end
 
     def filtered_bundles
       @filtered_bundles ||= @bundles.select { |b| b <= @quantity }
+    end
+
+    # Based on the sum of all the elements in a combination
+    # this method picks the best suitable bundle to fill the order
+    def next_bundle(combination)
+      result = filtered_bundles.reject { |b| combination.sum + b > @quantity }.first
+      result.nil? ? filtered_bundles.last : result
     end
   end
 end
