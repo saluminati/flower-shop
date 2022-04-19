@@ -3,7 +3,43 @@
 
 A flower shop sells their flowers in bundles and charges their customers on a bundled basis. If the shop sells roses in bundles of 5 and 10, and a customer orders 15, they will get a bundle of 10 and a bundle of 5.
 
-  
+## Flower List:
+| Flower Name | Product Code | Bundle Size/Cost
+|--|--|--|
+| **Anita** | A80 | 5@$3.9 5 |
+|  |  | 10@$6.9 5 |
+| **Ballerina** | B22 | 3@$4.95 |
+|  |  | 6@$8.95 |
+|  |  | 9@$11.95 |
+| **Camille** | C19 | 3@$2.95 |
+|  |  | 5@$4.95 |
+|  |  | 9@$7.95 |
+
+
+## Task:
+
+For a given customer order, you are required to determine the cost and breakdown for each product.
+To save on shipping space each order should contain the **minimal number of bundles**.
+
+Each order has a series of lines with each line containing the number of items followed by the product
+code.
+
+**An example input:**
+
+- 10 A
+- 15 B
+- 13 C
+
+**The output should be:**
+
+- 10 A80 $ 6 .9 5
+    o 1 x 10 $ 6 .9 5
+- 15 B22 $20.9 0
+    o 1 x 9 $ 11.
+    o 1 x 6 $ 8.
+- 13 C19 $12.
+    o 2 x 5 $ 4.
+    o 1 x 3 $ 2.
 
 ## Getting started
 
